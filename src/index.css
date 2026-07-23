@@ -82,14 +82,19 @@ button {
   font-weight: 500;
 }
 
-/* 커스텀 드롭다운 스타일 */
+/* select 버튼 스타일 (화살표 제거) */
+select,
 .custom-select,
 .toolbar-select,
 .status-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   box-sizing: border-box;
   border-radius: 12px;
   border: 1px solid var(--border-color);
   background-color: var(--input-bg);
+  background-image: none;
   color: var(--text-primary);
   font-family: inherit;
   font-weight: 500;
@@ -111,18 +116,24 @@ button {
   padding: 8px 14px;
 }
 
+select:hover,
 .custom-select:hover,
 .toolbar-select:hover,
 .status-select:hover {
   border-color: var(--primary);
 }
 
+select:focus,
 .custom-select:focus,
 .toolbar-select:focus,
 .status-select:focus {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 4px rgba(116, 185, 255, 0.16);
+}
+
+select::-ms-expand {
+  display: none;
 }
 
 .notification-toggle-btn {
