@@ -161,6 +161,15 @@ option:hover {
   display: inline-flex;
 }
 
+.custom-dropdown-wrapper {
+  display: inline-flex;
+}
+
+/* Keep the open menu above neighboring report rows. */
+.custom-dropdown-open {
+  z-index: 10;
+}
+
 .status-dropdown-menu,
 .custom-dropdown-menu {
   position: absolute;
@@ -174,6 +183,13 @@ option:hover {
   padding: 6px 0;
   z-index: 2500;
   overflow: hidden;
+}
+
+.custom-dropdown-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .status-dropdown-item,

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 const CustomDropdown = ({
   value,
@@ -11,22 +11,28 @@ const CustomDropdown = ({
   itemClassName,
   disabled,
   renderLabel,
+  onOpenChange,
 }) => {
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef(null);
+
+  const setDropdownOpen = useCallback((nextOpen) => {
+    setOpen(nextOpen);
+    onOpenChange?.(nextOpen);
+  }, [onOpenChange]);
 
   useEffect(() => {
     if (!open) return;
 
     const handleClickOutside = (event) => {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-        setOpen(false);
+        setDropdownOpen(false);
       }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [open]);
+  }, [open, setDropdownOpen]);
 
   const selectedOption = options.find((option) => {
     if (typeof option === 'string') return option === value;
@@ -44,12 +50,15 @@ const CustomDropdown = ({
       ref={wrapperRef}
       className={`custom-dropdown-wrapper ${open ? 'custom-dropdown-open' : ''} ${buttonClassName || ''}`}
       style={{ position: 'relative', ...wrapperStyle }}
+      onClick={(event) => event.stopPropagation()}
     >
       <button
         type="button"
         className="custom-dropdown-button"
         style={buttonStyle}
-        onClick={() => !disabled && setOpen((prev) => !prev)}
+        onClick={() => {
+          if (!disabled) setDropdownOpen(!open);
+        }}
         disabled={disabled}
       >
         {renderLabel ? renderLabel(value, label) : label}
@@ -67,7 +76,7 @@ const CustomDropdown = ({
                 type="button"
                 className={`custom-dropdown-item ${itemClassName || ''}`}
                 onClick={() => {
-                  setOpen(false);
+                  setDropdownOpen(false);
                   if (onChange) onChange(optionValue);
                 }}
               >

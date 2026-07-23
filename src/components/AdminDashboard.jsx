@@ -10,6 +10,7 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
   const [selectedIds, setSelectedIds] = useState([]); // 체크된 항목 ID 배열
   const [selectedReport, setSelectedReport] = useState(null); // 상세 보기용 모달 상태
   const [cleanupDays, setCleanupDays] = useState('30');
+  const [openStatusDropdownId, setOpenStatusDropdownId] = useState(null);
   const { theme } = useTheme();
   const statusOptions = ['접수', '처리중', '완료'];
   const cleanupOptions = [
@@ -261,7 +262,7 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
       </div>
 
       {/* 리스트 영역 */}
-      <div style={{ marginTop: '20px' }}>
+      <div style={{ marginTop: '16px', paddingBottom: '16px' }}>
         {reports.length === 0 ? (
           <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-secondary)' }}>접수된 신고가 없습니다.</div>
         ) : (
@@ -274,6 +275,8 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
                 key={report.id} 
                 onClick={() => setSelectedReport(report)} // 행 클릭 시 상세 모달 오픈
                 style={{ 
+                  position: 'relative',
+                  zIndex: openStatusDropdownId === report.id ? 2 : 1,
                   display: 'flex', alignItems: 'center', padding: '16px 22px', 
                   borderRadius: '18px', margin: '0 16px 12px', 
                   backgroundColor: 'var(--admin-card-bg)',
@@ -334,6 +337,9 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
                     }}
                     buttonStyle={getStatusSelectStyle(report.status)}
                     wrapperStyle={{ minWidth: '110px' }}
+                    onOpenChange={(isOpen) => {
+                      setOpenStatusDropdownId(isOpen ? report.id : null);
+                    }}
                   />
 
                   <div style={{ width: '80px', textAlign: 'center', fontSize: '0.85em', color: 'var(--text-secondary)' }}>
