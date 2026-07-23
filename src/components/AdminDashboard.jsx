@@ -9,7 +9,17 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
   const [selectedIds, setSelectedIds] = useState([]); // 체크된 항목 ID 배열
   const [selectedReport, setSelectedReport] = useState(null); // 상세 보기용 모달 상태
   const [cleanupDays, setCleanupDays] = useState('30');
+  const [openStatusDropdown, setOpenStatusDropdown] = useState(null);
   const { theme } = useTheme();
+  const statusOptions = ['접수', '처리중', '완료'];
+
+  useEffect(() => {
+    if (!openStatusDropdown) return;
+
+    const handleDocumentClick = () => setOpenStatusDropdown(null);
+    document.addEventListener('click', handleDocumentClick);
+    return () => document.removeEventListener('click', handleDocumentClick);
+  }, [openStatusDropdown]);
 
   const getStatusSelectStyle = (status) => {
     const isDark = theme === 'dark';
@@ -54,6 +64,8 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
   };
 
   const { alert, confirm } = useDialog();
+  const [openStatusDropdown, setOpenStatusDropdown] = useState(null);
+  const statusOptions = ['접수', '처리중', '완료'];
 
   const fetchReports = useCallback(async () => {
     try {
@@ -312,21 +324,38 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
 
                 {/* 4. 우측 컨트롤 (상태, 날짜, 개별삭제) */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '15px', flexShrink: 0, marginLeft: '20px' }}>
-                  <select 
-                    className="status-select"
-                    value={report.status}
-                    onClick={(e) => e.stopPropagation()} // 드롭다운 클릭 시 행 이벤트 무시
-                    onChange={(e) => {
-                      e.stopPropagation();
-                      handleStatusChange(report.id, e.target.value);
-                    }}
-                    style={getStatusSelectStyle(report.status)}
-                  >
-                    <option value="접수">접수</option>
-                    <option value="처리중">처리중</option>
-                    <option value="완료">완료</option>
-                  </select>
-                  
+                  <div className="status-dropdown-wrapper" style={{ position: 'relative' }}>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setOpenStatusDropdown(openStatusDropdown === report.id ? null : report.id);
+                      }}
+                      style={getStatusSelectStyle(report.status)}
+                    >
+                      {report.status}
+                      <span style={{ marginLeft: '10px', fontSize: '0.85em' }}>▾</span>
+                    </button>
+
+                    {openStatusDropdown === report.id && (
+                      <div className="status-dropdown-menu" onClick={(e) => e.stopPropagation()}>
+                        {statusOptions.map((status) => (
+                          <button
+                            key={status}
+                            type="button"
+                            className="status-dropdown-item"
+                            onClick={async () => {
+                              setOpenStatusDropdown(null);
+                              if (status !== report.status) await handleStatusChange(report.id, status);
+                            }}
+                          >
+                            {status}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
                   <div style={{ width: '80px', textAlign: 'center', fontSize: '0.85em', color: 'var(--text-secondary)' }}>
                     {new Date(report.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                   </div>

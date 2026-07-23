@@ -155,6 +155,41 @@ option:hover {
   background-color: var(--bg-hover);
 }
 
+.status-dropdown-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.status-dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 140px;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
+  padding: 6px 0;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.status-dropdown-item {
+  width: 100%;
+  padding: 12px 16px;
+  text-align: left;
+  color: var(--text-primary);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  transition: background-color 0.2s ease;
+}
+
+.status-dropdown-item:hover {
+  background-color: var(--bg-hover);
+}
+
 /* 커스텀 다이얼로그 스타일 */
 .dialog-overlay {
   position: fixed;
