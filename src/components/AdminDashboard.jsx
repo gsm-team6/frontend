@@ -65,7 +65,6 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
 
   const { alert, confirm } = useDialog();
   const [openStatusDropdown, setOpenStatusDropdown] = useState(null);
-  const statusOptions = ['접수', '처리중', '완료'];
 
   const fetchReports = useCallback(async () => {
     try {
