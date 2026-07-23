@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { apiUrl } from '../apiConfig';
 import { useDialog } from '../context/DialogContext';
+import { useTheme } from '../context/ThemeContext';
 
 const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
   const [reports, setReports] = useState([]);
@@ -8,6 +9,49 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
   const [selectedIds, setSelectedIds] = useState([]); // 체크된 항목 ID 배열
   const [selectedReport, setSelectedReport] = useState(null); // 상세 보기용 모달 상태
   const [cleanupDays, setCleanupDays] = useState('30');
+  const { theme } = useTheme();
+
+  const getStatusSelectStyle = (status) => {
+    const isDark = theme === 'dark';
+    const base = {
+      minWidth: '110px',
+      padding: '8px 14px',
+      borderRadius: '14px',
+      border: '1px solid transparent',
+      fontWeight: '700',
+      cursor: 'pointer',
+      outline: 'none',
+      color: 'var(--text-primary)',
+      backgroundColor: 'var(--input-bg)',
+      transition: 'all 0.2s ease',
+    };
+
+    if (status === '접수') {
+      return {
+        ...base,
+        backgroundColor: isDark ? '#7f1d1d' : '#fee2e2',
+        color: isDark ? '#ffffff' : '#b91c1c',
+      };
+    }
+
+    if (status === '처리중') {
+      return {
+        ...base,
+        backgroundColor: isDark ? '#b45309' : '#fef3c7',
+        color: isDark ? '#ffffff' : '#92400e',
+      };
+    }
+
+    if (status === '완료') {
+      return {
+        ...base,
+        backgroundColor: isDark ? '#166534' : '#d1fae5',
+        color: isDark ? '#ffffff' : '#166534',
+      };
+    }
+
+    return base;
+  };
 
   const { alert, confirm } = useDialog();
 
@@ -276,10 +320,7 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
                       e.stopPropagation();
                       handleStatusChange(report.id, e.target.value);
                     }}
-                    style={{ 
-                      borderRadius: '12px', border: '1px solid var(--border-color)', 
-                      backgroundColor: isCompleted ? 'var(--surface)' : 'var(--input-bg)', color: 'var(--text-primary)', outline: 'none', cursor: 'pointer', minWidth: '110px'
-                    }}
+                    style={getStatusSelectStyle(report.status)}
                   >
                     <option value="접수">접수</option>
                     <option value="처리중">처리중</option>

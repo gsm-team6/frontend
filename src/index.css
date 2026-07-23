@@ -117,10 +117,13 @@ select,
 }
 
 select,
-.custom-select,
 .toolbar-select,
 .status-select {
   text-align: center;
+}
+
+.custom-select {
+  text-align: left;
 }
 
 select:hover,
