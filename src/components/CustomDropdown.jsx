@@ -61,14 +61,20 @@ const CustomDropdown = ({
           if (!disabled) setDropdownOpen(!open);
         }}
         disabled={disabled}
+        aria-haspopup="listbox"
+        aria-expanded={open}
       >
-        {renderLabel ? renderLabel(value, label) : label}
+        <span className="custom-dropdown-label">
+          {renderLabel ? renderLabel(value, label) : label}
+        </span>
+        <span className={`custom-dropdown-caret ${open ? 'is-open' : ''}`} aria-hidden="true">⌄</span>
       </button>
 
       {open && (
         <div
           className={`custom-dropdown-menu ${menuClassName || ''}`}
           style={menuStyle}
+          role="listbox"
         >
           {options.map((option) => {
             const optionValue = typeof option === 'string' ? option : option.value;
@@ -78,13 +84,16 @@ const CustomDropdown = ({
               <button
                 key={optionValue}
                 type="button"
-                className={`custom-dropdown-item ${itemClassName || ''}`}
+                className={`custom-dropdown-item ${optionValue === value ? 'is-selected' : ''} ${itemClassName || ''}`}
+                role="option"
+                aria-selected={optionValue === value}
                 onClick={() => {
                   setDropdownOpen(false);
                   if (onChange) onChange(optionValue);
                 }}
               >
-                {optionLabel}
+                <span>{optionLabel}</span>
+                {optionValue === value && <span className="custom-dropdown-check" aria-hidden="true">✓</span>}
               </button>
             );
           })}

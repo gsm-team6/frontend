@@ -84,6 +84,7 @@ const ReportForm = ({ isOpen, onClose, onReportSubmitted, user }) => { // 👈 u
               onChange={(value) => setFormData({ ...formData, report_type: value })}
               buttonStyle={{
                 width: '100%',
+                boxSizing: 'border-box',
                 marginTop: '8px',
                 padding: '12px 14px',
                 borderRadius: '12px',

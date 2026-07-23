@@ -186,7 +186,8 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
         }}>
           <div style={{
             backgroundColor: 'var(--modal-bg)', padding: '30px', borderRadius: '24px',
-            width: '90%', maxWidth: '450px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
+            width: '90%', maxWidth: '450px', maxHeight: 'calc(100vh - 48px)', overflowY: 'auto',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <h3 style={{ margin: 0, color: 'var(--text-primary)' }}>신고 상세 정보</h3>
@@ -204,7 +205,7 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
               </div>
               <div>
                 <span style={{ fontSize: '0.85em', color: 'var(--text-secondary)', display: 'block', marginBottom: '4px' }}>상세 내용</span>
-                <div style={{ padding: '12px', backgroundColor: 'var(--surface)', borderRadius: '8px', minHeight: '80px', lineHeight: '1.5', color: 'var(--text-primary)', fontFamily: 'inherit' }}>{selectedReport.content || selectedReport.description || '신고 내용이 없습니다.'}</div>
+                <div style={{ padding: '12px', backgroundColor: 'var(--surface)', borderRadius: '8px', minHeight: '80px', maxHeight: '240px', overflowY: 'auto', lineHeight: '1.5', color: 'var(--text-primary)', fontFamily: 'inherit' }}>{selectedReport.content || selectedReport.description || '신고 내용이 없습니다.'}</div>
               </div>
             </div>
           </div>
@@ -273,6 +274,7 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
             return (
               <div 
                 key={report.id} 
+                className="report-list-row"
                 onClick={() => setSelectedReport(report)} // 행 클릭 시 상세 모달 오픈
                 style={{ 
                   position: 'relative',
@@ -306,12 +308,12 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
                 </div>
 
                 {/* 2. 발신자 (신고자) */}
-                <div style={{ width: '100px', fontWeight: isNew ? 'bold' : 'normal', color: 'var(--text-primary)', flexShrink: 0 }}>
+                <div className="report-list-sender" style={{ width: '100px', fontWeight: isNew ? 'bold' : 'normal', color: 'var(--text-primary)', flexShrink: 0 }}>
                   {report.users ? report.users.name : '알수없음'}
                 </div>
 
                 {/* 3. 제목 및 내용 요약 */}
-                <div style={{ flexGrow: 1, display: 'flex', alignItems: 'center', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
+                <div className="report-list-summary" style={{ flexGrow: 1, display: 'flex', alignItems: 'center', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
                   <span style={{ 
                     backgroundColor: isCompleted ? 'var(--surface-alt)' : 'var(--admin-accent-soft)', 
                     color: isCompleted ? 'var(--text-secondary)' : 'var(--admin-accent)',
@@ -325,10 +327,11 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
                   <span style={{ color: isNew ? 'var(--text-primary)' : 'var(--text-secondary)', fontSize: '0.95em' }}>
                     - {report.content}
                   </span>
+                  <span className="report-detail-hint">상세 보기 →</span>
                 </div>
 
                 {/* 4. 우측 컨트롤 (상태, 날짜, 개별삭제) */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '15px', flexShrink: 0, marginLeft: '20px' }}>
+                <div className="report-list-actions" style={{ display: 'flex', alignItems: 'center', gap: '15px', flexShrink: 0, marginLeft: '20px', minWidth: '210px', justifyContent: 'flex-end' }}>
                   <CustomDropdown
                     value={report.status}
                     options={statusOptions}
@@ -342,7 +345,7 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
                     }}
                   />
 
-                  <div style={{ width: '80px', textAlign: 'center', fontSize: '0.85em', color: 'var(--text-secondary)' }}>
+                  <div className="report-list-date" style={{ width: '80px', textAlign: 'center', fontSize: '0.85em', color: 'var(--text-secondary)' }}>
                     {new Date(report.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                   </div>
                 </div>
