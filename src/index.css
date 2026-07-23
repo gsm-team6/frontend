@@ -105,6 +105,7 @@ select,
   background-position: calc(100% - 14px) center, calc(100% - 20px) center;
   background-size: 6px 6px;
   background-repeat: no-repeat;
+  pointer-events: none;
 }
 
 .custom-select {
@@ -160,7 +161,8 @@ option:hover {
   display: inline-flex;
 }
 
-.status-dropdown-menu {
+.status-dropdown-menu,
+.custom-dropdown-menu {
   position: absolute;
   right: 0;
   top: calc(100% + 8px);
@@ -174,7 +176,8 @@ option:hover {
   overflow: hidden;
 }
 
-.status-dropdown-item {
+.status-dropdown-item,
+.custom-dropdown-item {
   width: 100%;
   padding: 12px 16px;
   text-align: left;
@@ -186,7 +189,8 @@ option:hover {
   transition: background-color 0.2s ease;
 }
 
-.status-dropdown-item:hover {
+.status-dropdown-item:hover,
+.custom-dropdown-item:hover {
   background-color: var(--bg-hover);
 }
 

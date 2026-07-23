@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { apiUrl } from '../apiConfig';
 import { useDialog } from '../context/DialogContext';
+import CustomDropdown from './CustomDropdown';
 
 // isOpen(열림 상태)과 onClose(닫기 함수)를 추가로 받습니다.
 const ReportForm = ({ isOpen, onClose, onReportSubmitted, user }) => { // 👈 user 추가
@@ -77,12 +78,25 @@ const ReportForm = ({ isOpen, onClose, onReportSubmitted, user }) => { // 👈 u
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
           <div>
             <label style={{ fontSize: '0.9em', color: 'var(--text-secondary)', fontWeight: 'bold' }}>신고 유형</label>
-            <select name="report_type" value={formData.report_type} onChange={handleChange} className="custom-select"
-              style={{ width: '100%', marginTop: '5px' }}>
-              <option value="시설파손">시설파손</option>
-              <option value="화재위험">화재위험</option>
-              <option value="기타">기타</option>
-            </select>
+            <CustomDropdown
+              value={formData.report_type}
+              options={['시설파손', '화재위험', '기타']}
+              onChange={(value) => setFormData({ ...formData, report_type: value })}
+              buttonStyle={{
+                width: '100%',
+                marginTop: '8px',
+                padding: '12px 14px',
+                borderRadius: '12px',
+                border: '1px solid var(--input-border)',
+                backgroundColor: 'var(--input-bg)',
+                color: 'var(--input-text)',
+                fontFamily: 'inherit',
+                textAlign: 'left',
+                fontWeight: '500',
+                cursor: 'pointer',
+              }}
+              wrapperStyle={{ width: '100%', marginTop: '5px' }}
+            />
           </div>
           <div>
             <label style={{ fontSize: '0.9em', color: '#666', fontWeight: 'bold' }}>위치 (자세히)</label>

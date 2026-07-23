@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { apiUrl } from '../apiConfig';
 import { useDialog } from '../context/DialogContext';
+import CustomDropdown from './CustomDropdown';
 
 // App.jsx에서 userRole과 onStatusChanged(알림함 갱신용)를 추가로 받습니다.
 const ReportDashboard = ({ refreshKey, userRole, onStatusChanged }) => {
@@ -88,15 +89,23 @@ const ReportDashboard = ({ refreshKey, userRole, onStatusChanged }) => {
                 <td style={{ padding: '10px', fontWeight: 'bold', color: getStatusColor(report.status) }}>
                   {/* ★ 관리자일 경우 드롭다운, 학생일 경우 단순 텍스트 렌더링 */}
                   {userRole === 'ADMIN' ? (
-                    <select 
-                      value={report.status} 
-                      onChange={(e) => handleStatusChange(report.id, e.target.value)}
-                      style={{ padding: '4px', fontWeight: 'bold', color: getStatusColor(report.status) }}
-                    >
-                      <option value="접수">접수</option>
-                      <option value="처리중">처리중</option>
-                      <option value="완료">완료</option>
-                    </select>
+                    <CustomDropdown
+                      value={report.status}
+                      options={['접수', '처리중', '완료']}
+                      onChange={(value) => handleStatusChange(report.id, value)}
+                      buttonStyle={{
+                        padding: '6px 12px',
+                        borderRadius: '14px',
+                        border: '1px solid var(--border-color)',
+                        backgroundColor: 'var(--input-bg)',
+                        color: getStatusColor(report.status),
+                        fontWeight: '700',
+                        cursor: 'pointer',
+                        width: '100%',
+                        textAlign: 'center',
+                      }}
+                      wrapperStyle={{ display: 'inline-flex', minWidth: '100px' }}
+                    />
                   ) : (
                     report.status
                   )}
