@@ -137,7 +137,7 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
               </div>
               <div>
                 <span style={{ fontSize: '0.85em', color: 'var(--text-secondary)', display: 'block', marginBottom: '4px' }}>상세 내용</span>
-                <div style={{ padding: '12px', backgroundColor: 'var(--surface)', borderRadius: '8px', minHeight: '80px', lineHeight: '1.5', color: 'var(--text-primary)' }}>{selectedReport.content}</div>
+                <div style={{ padding: '12px', backgroundColor: 'var(--surface)', borderRadius: '8px', minHeight: '80px', lineHeight: '1.5', color: 'var(--text-primary)', fontFamily: 'inherit' }}>{selectedReport.content || selectedReport.description || '신고 내용이 없습니다.'}</div>
               </div>
             </div>
           </div>

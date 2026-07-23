@@ -24,13 +24,13 @@ const ReportForm = ({ isOpen, onClose, onReportSubmitted, user }) => { // 👈 u
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          title: formData.title,
-          description: formData.description,
+          report_type: formData.report_type,
           location: formData.location,
-          // ... 기존에 있던 필드들 그대로 유지 ...
-
-          user_id: user.id,   
-          author: user.name   
+          content: formData.content,
+          title: `${formData.report_type} 신고`,
+          description: formData.content,
+          user_id: user.id,
+          author: user.name
         })
       });
 

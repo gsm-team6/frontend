@@ -71,14 +71,14 @@ const StudentDashboard = ({ refreshKey, onDataUpdate, user }) => {
               </div>
               <div>
                 <span style={{ fontSize: '0.85em', color: '#888', display: 'block', marginBottom: '4px' }}>위치</span>
-                <div style={{ padding: '12px', backgroundColor: 'var(--surface)', borderRadius: '8px', color: 'var(--text-primary)' }}>
+                <div style={{ padding: '12px', backgroundColor: 'var(--surface)', borderRadius: '8px', color: 'var(--text-primary)', fontFamily: 'inherit' }}>
                   {selectedReport.location}
                 </div>
               </div>
               <div>
                 <span style={{ fontSize: '0.85em', color: '#888', display: 'block', marginBottom: '4px' }}>상세 내용</span>
-                <div style={{ padding: '12px', backgroundColor: 'var(--surface)', borderRadius: '8px', color: 'var(--text-primary)', minHeight: '80px', lineHeight: '1.5' }}>
-                  {selectedReport.content}
+                <div style={{ padding: '12px', backgroundColor: 'var(--surface)', borderRadius: '8px', color: 'var(--text-primary)', minHeight: '80px', lineHeight: '1.5', fontFamily: 'inherit' }}>
+                  {selectedReport.content || selectedReport.description || '신고 내용이 없습니다.'}
                 </div>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid var(--border-color)', paddingTop: '15px', marginTop: '5px', fontSize: '0.9em', color: 'var(--text-secondary)' }}>

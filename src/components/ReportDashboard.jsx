@@ -100,7 +100,7 @@ const ReportDashboard = ({ refreshKey, userRole, onStatusChanged }) => {
                 </td>
                 <td style={{ padding: '10px' }}>{report.report_type}</td>
                 <td style={{ padding: '10px' }}>{report.location}</td>
-                <td style={{ padding: '10px' }}>{report.content}</td>
+                <td style={{ padding: '10px', fontFamily: 'inherit' }}>{report.content || report.description || '-'}</td>
                 <td style={{ padding: '10px' }}>{report.users ? report.users.name : '알수없음'}</td>
                 <td style={{ padding: '10px', fontSize: '0.9em', color: '#666' }}>
                   {new Date(report.created_at).toLocaleDateString()}
