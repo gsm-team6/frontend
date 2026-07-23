@@ -1,0 +1,96 @@
+import React, { useState } from 'react';
+
+// isOpen(열림 상태)과 onClose(닫기 함수)를 추가로 받습니다.
+const ReportForm = ({ isOpen, onClose, onReportSubmitted, user }) => { // 👈 user 추가
+  const [formData, setFormData] = useState({
+    location: '',
+    report_type: '시설파손',
+    content: ''
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('http://localhost:5000/api/reports', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: formData.title,
+          description: formData.description,
+          location: formData.location,
+          // ... 기존에 있던 필드들 그대로 유지 ...
+
+          // 👇 이 두 줄을 반드시 추가해주세요! 👇
+          user_id: user.id,   
+          author: user.name   
+        })
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        alert('신고가 성공적으로 접수되었습니다.');
+        setFormData({ location: '', report_type: '시설파손', content: '' });
+        if (onReportSubmitted) onReportSubmitted();
+        onClose(); // 제출 성공 시 팝업 닫기
+      }
+    } catch (error) {
+      console.error('API 호출 에러:', error);
+      alert('서버와 연결할 수 없습니다.');
+    }
+  };
+
+  // isOpen이 false면 아무것도 렌더링하지 않음(숨김)
+  if (!isOpen) return null;
+
+  return (
+    // 반투명한 검은색 배경 (클릭 시 닫히도록 설정할 수도 있지만 여기선 생략)
+    <div style={{
+      position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.4)', zIndex: 1100,
+      display: 'flex', justifyContent: 'center', alignItems: 'center'
+    }}>
+      {/* 팝업 컨텐츠 창 */}
+      <div style={{
+        backgroundColor: 'white', padding: '30px', borderRadius: '24px',
+        width: '90%', maxWidth: '400px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+          <h3 style={{ margin: 0, color: '#333' }}>🚨 위험물 신고하기</h3>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '1.5em', cursor: 'pointer', color: '#999' }}>&times;</button>
+        </div>
+
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+          <div>
+            <label style={{ fontSize: '0.9em', color: '#666', fontWeight: 'bold' }}>신고 유형</label>
+            <select name="report_type" value={formData.report_type} onChange={handleChange}
+              style={{ width: '100%', padding: '12px', marginTop: '5px', borderRadius: '12px', border: '1px solid #ddd', outline: 'none' }}>
+              <option value="시설파손">시설파손</option>
+              <option value="화재위험">화재위험</option>
+              <option value="기타">기타</option>
+            </select>
+          </div>
+          <div>
+            <label style={{ fontSize: '0.9em', color: '#666', fontWeight: 'bold' }}>위치 (자세히)</label>
+            <input type="text" name="location" value={formData.location} onChange={handleChange} required placeholder="예: 본관 3층 복도 끝"
+              style={{ width: '100%', padding: '12px', marginTop: '5px', borderRadius: '12px', border: '1px solid #ddd', boxSizing: 'border-box', outline: 'none' }} />
+          </div>
+          <div>
+            <label style={{ fontSize: '0.9em', color: '#666', fontWeight: 'bold' }}>신고 내용</label>
+            <textarea name="content" value={formData.content} onChange={handleChange} required placeholder="상세한 내용을 적어주세요." rows="4"
+              style={{ width: '100%', padding: '12px', marginTop: '5px', borderRadius: '12px', border: '1px solid #ddd', boxSizing: 'border-box', outline: 'none', resize: 'none' }} />
+          </div>
+          <button type="submit"
+            style={{ padding: '15px', backgroundColor: '#74B9FF', color: 'white', border: 'none', borderRadius: '12px', fontWeight: 'bold', fontSize: '1em', cursor: 'pointer', marginTop: '10px' }}>
+            신고 제출하기
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default ReportForm;
