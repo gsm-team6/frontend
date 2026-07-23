@@ -64,7 +64,6 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
   };
 
   const { alert, confirm } = useDialog();
-  const [openStatusDropdown, setOpenStatusDropdown] = useState(null);
 
   const fetchReports = useCallback(async () => {
     try {
