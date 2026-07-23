@@ -92,10 +92,12 @@ const ReportForm = ({ isOpen, onClose, onReportSubmitted, user }) => { // 👈 u
                 color: 'var(--input-text)',
                 fontFamily: 'inherit',
                 textAlign: 'left',
+                justifyContent: 'flex-start',
                 fontWeight: '500',
                 cursor: 'pointer',
               }}
               wrapperStyle={{ width: '100%', marginTop: '5px' }}
+              menuStyle={{ left: 0, right: 'auto' }}
             />
           </div>
           <div>

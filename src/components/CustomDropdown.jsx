@@ -8,6 +8,7 @@ const CustomDropdown = ({
   wrapperStyle,
   buttonClassName,
   menuClassName,
+  menuStyle,
   itemClassName,
   disabled,
   renderLabel,
@@ -65,7 +66,10 @@ const CustomDropdown = ({
       </button>
 
       {open && (
-        <div className={`custom-dropdown-menu ${menuClassName || ''}`}>
+        <div
+          className={`custom-dropdown-menu ${menuClassName || ''}`}
+          style={menuStyle}
+        >
           {options.map((option) => {
             const optionValue = typeof option === 'string' ? option : option.value;
             const optionLabel = typeof option === 'string' ? option : option.label;
