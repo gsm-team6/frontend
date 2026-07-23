@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { apiUrl } from '../apiConfig';
+import { useDialog } from '../context/DialogContext';
 
 const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
   const [reports, setReports] = useState([]);
@@ -7,6 +8,8 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
   const [selectedIds, setSelectedIds] = useState([]); // 체크된 항목 ID 배열
   const [selectedReport, setSelectedReport] = useState(null); // 상세 보기용 모달 상태
   const [cleanupDays, setCleanupDays] = useState('30');
+
+  const { alert, confirm } = useDialog();
 
   const fetchReports = useCallback(async () => {
     try {
@@ -21,7 +24,7 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [alert, confirm]);
 
   useEffect(() => {
     fetchReports();
@@ -31,7 +34,7 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
 
   // 1. 상태 변경 함수
   const handleStatusChange = async (reportId, newStatus) => {
-    const confirmChange = window.confirm(`상태를 '${newStatus}'(으)로 변경하시겠습니까?`);
+    const confirmChange = await confirm(`상태를 '${newStatus}'(으)로 변경하시겠습니까?`);
     if (!confirmChange) return;
 
     try {
@@ -42,11 +45,13 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
       });
       const result = await response.json();
       if (result.success) {
+        await alert('상태가 변경되었습니다.');
         fetchReports();
         if (onStatusChanged) onStatusChanged();
       }
     } catch (error) {
       console.error('상태 변경 에러:', error);
+      await alert('상태 변경 중 오류가 발생했습니다.');
     }
   };
 
@@ -65,8 +70,13 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
 
   // 4. 선택 일괄 삭제 함수 ('완료' 상태만 삭제됨)
   const handleBulkDelete = async () => {
-    if (selectedIds.length === 0) return alert('삭제할 항목을 먼저 선택해주세요.');
-    if (!window.confirm(`선택한 ${selectedIds.length}개의 신고를 모두 삭제하시겠습니까?`)) return;
+    if (selectedIds.length === 0) {
+      await alert('삭제할 항목을 먼저 선택해주세요.');
+      return;
+    }
+
+    const confirmDelete = await confirm(`선택한 ${selectedIds.length}개의 신고를 모두 삭제하시겠습니까?`);
+    if (!confirmDelete) return;
 
     try {
       const response = await fetch(apiUrl('/api/reports/bulk-delete'), {
@@ -76,19 +86,21 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
       });
       const result = await response.json();
       if (result.success) {
-        alert(result.message);
+        await alert(result.message);
         setSelectedIds([]); // 삭제 후 체크박스 초기화
         fetchReports();
       }
     } catch (error) {
       console.error('일괄 삭제 에러:', error);
+      await alert('일괄 삭제 중 오류가 발생했습니다.');
     }
   };
 
   // 5. 완료된 신고 정리 함수 (조건 3: 드롭다운 기간 반영되도록 수정)
   const handleCleanup = async () => {
     const periodText = cleanupDays === 'all' ? '전체' : `${cleanupDays}일 경과된`;
-    if (!window.confirm(`${periodText} '완료' 상태의 신고를 모두 삭제하시겠습니까?`)) return;
+    const confirmCleanup = await confirm(`${periodText} '완료' 상태의 신고를 모두 삭제하시겠습니까?`);
+    if (!confirmCleanup) return;
 
     try {
       const response = await fetch(apiUrl('/api/reports/cleanup'), { 
@@ -98,11 +110,12 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
       });
       const result = await response.json();
       if (result.success) {
-        alert(result.message);
+        await alert(result.message);
         fetchReports();
       }
     } catch (error) {
       console.error('오래된 신고 정리 에러:', error);
+      await alert('오래된 신고 정리 중 오류가 발생했습니다.');
     }
   };
   if (loading) return <div style={{ textAlign: 'center', padding: '50px', color: 'var(--text-secondary)' }}>목록을 불러오는 중입니다...</div>;

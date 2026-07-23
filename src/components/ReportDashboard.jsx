@@ -1,10 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { apiUrl } from '../apiConfig';
+import { useDialog } from '../context/DialogContext';
 
 // App.jsx에서 userRole과 onStatusChanged(알림함 갱신용)를 추가로 받습니다.
 const ReportDashboard = ({ refreshKey, userRole, onStatusChanged }) => {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const { alert, confirm } = useDialog();
 
   const fetchReports = useCallback(async () => {
     try {
@@ -19,7 +22,7 @@ const ReportDashboard = ({ refreshKey, userRole, onStatusChanged }) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [alert, confirm]);
 
   useEffect(() => {
     fetchReports();
@@ -29,7 +32,7 @@ const ReportDashboard = ({ refreshKey, userRole, onStatusChanged }) => {
 
   // ★ 관리자용 상태 변경 API 호출 함수
   const handleStatusChange = async (reportId, newStatus) => {
-    const confirmChange = window.confirm(`상태를 '${newStatus}'(으)로 변경하시겠습니까?`);
+    const confirmChange = await confirm(`상태를 '${newStatus}'(으)로 변경하시겠습니까?`);
     if (!confirmChange) return;
 
     try {
@@ -41,13 +44,13 @@ const ReportDashboard = ({ refreshKey, userRole, onStatusChanged }) => {
       const result = await response.json();
 
       if (result.success) {
-        alert('상태가 변경되었습니다.');
+        await alert('상태가 변경되었습니다.');
         fetchReports(); // 목록 다시 불러오기
         if (onStatusChanged) onStatusChanged(); // App.jsx에 알려서 알림함도 새로고침
       }
     } catch (error) {
       console.error('상태 변경 에러:', error);
-      alert('상태 변경 중 오류가 발생했습니다.');
+      await alert('상태 변경 중 오류가 발생했습니다.');
     }
   };
 

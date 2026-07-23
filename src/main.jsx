@@ -3,12 +3,15 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import './index.css';
-import { ThemeProvider } from './context/ThemeContext'; // 추가
+import { ThemeProvider } from './context/ThemeContext';
+import { DialogProvider } from './context/DialogContext';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ThemeProvider>
-      <App />
+      <DialogProvider>
+        <App />
+      </DialogProvider>
     </ThemeProvider>
   </React.StrictMode>
 );

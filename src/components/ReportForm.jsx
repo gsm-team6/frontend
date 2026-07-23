@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { apiUrl } from '../apiConfig';
+import { useDialog } from '../context/DialogContext';
 
 // isOpen(열림 상태)과 onClose(닫기 함수)를 추가로 받습니다.
 const ReportForm = ({ isOpen, onClose, onReportSubmitted, user }) => { // 👈 user 추가
@@ -13,6 +14,8 @@ const ReportForm = ({ isOpen, onClose, onReportSubmitted, user }) => { // 👈 u
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const { alert } = useDialog();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,16 +39,16 @@ const ReportForm = ({ isOpen, onClose, onReportSubmitted, user }) => { // 👈 u
 
       const result = await response.json();
       if (result.success) {
-        alert('신고가 성공적으로 접수되었습니다.');
+        await alert('신고가 성공적으로 접수되었습니다.');
         setFormData({ location: '', report_type: '시설파손', content: '' });
         if (onReportSubmitted) onReportSubmitted();
         onClose(); // 제출 성공 시 팝업 닫기
       } else {
-        alert(result.message || '신고 제출에 실패했습니다.');
+        await alert(result.message || '신고 제출에 실패했습니다.');
       }
     } catch (error) {
       console.error('API 호출 에러:', error);
-      alert('서버와 연결할 수 없습니다.');
+      await alert('서버와 연결할 수 없습니다.');
     } finally {
       setIsSubmitting(false);
     }

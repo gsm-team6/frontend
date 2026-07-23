@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { apiUrl } from '../apiConfig';
+import { useDialog } from '../context/DialogContext';
 
 const Auth = ({ onLoginSuccess }) => {
   const [isLogin, setIsLogin] = useState(true); // true: 로그인, false: 회원가입
@@ -22,6 +23,8 @@ const Auth = ({ onLoginSuccess }) => {
     setErrorMsg('');
     setFormData({ name: '', email: '', password: '', confirmPassword: '' });
   };
+
+  const { alert } = useDialog();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -61,11 +64,11 @@ const Auth = ({ onLoginSuccess }) => {
 
       if (isLogin) {
         // 로그인 성공 시 토큰과 유저 정보 상위(App)로 전달
-        alert(`${result.user.name}님, 환영합니다!`);
+        await alert(`${result.user.name}님, 환영합니다!`);
         onLoginSuccess(result.token, result.user);
       } else {
         // 회원가입 성공 시 로그인 탭으로 이동
-        alert('회원가입이 완료되었습니다! 로그인해 주세요.');
+        await alert('회원가입이 완료되었습니다! 로그인해 주세요.');
         toggleTab(true);
       }
     } catch (error) {
