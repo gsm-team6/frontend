@@ -332,7 +332,6 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
                       style={getStatusSelectStyle(report.status)}
                     >
                       {report.status}
-                      <span style={{ marginLeft: '10px', fontSize: '0.85em' }}>▾</span>
                     </button>
 
                     {openStatusDropdown === report.id && (
