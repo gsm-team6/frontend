@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { apiUrl } from '../apiConfig';
 import { useDialog } from '../context/DialogContext';
 import { useTheme } from '../context/ThemeContext';
