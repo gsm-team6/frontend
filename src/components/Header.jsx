@@ -113,14 +113,15 @@ const Header = ({ user, viewMode, setViewMode, onLogout, refreshKey }) => {
             <button 
               ref={notiButtonRef}
               onClick={handleNotiToggle}
-              style={{ background: 'none', border: 'none', fontSize: '1.5em', cursor: 'pointer', position: 'relative' }}
+              className="notification-toggle-btn"
+              style={{ position: 'relative' }}
             >
               🔔️
               {unreadCount > 0 && (
                 <span style={{
-                  position: 'absolute', top: '0', right: '-5px',
-                  backgroundColor: '#ff7675', color: 'white', fontSize: '0.5em',
-                  padding: '2px 6px', borderRadius: '10px', fontWeight: 'bold'
+                  position: 'absolute', top: '4px', right: '4px',
+                  backgroundColor: '#ff7675', color: 'white', fontSize: '0.65em',
+                  padding: '4px 7px', borderRadius: '999px', fontWeight: '700', minWidth: '22px', textAlign: 'center'
                 }}>
                   {unreadCount}
                 </span>
@@ -128,30 +129,21 @@ const Header = ({ user, viewMode, setViewMode, onLogout, refreshKey }) => {
             </button>
 
             {isNotiOpen && (
-              <div ref={notiRef} style={{
-                position: 'absolute', top: '40px', right: '0', width: '320px',
-                backgroundColor: 'var(--admin-noti-bg)', borderRadius: '16px', boxShadow: '0 8px 28px rgba(15,23,42,0.18)',
-                padding: '15px', zIndex: 1000, maxHeight: '400px', overflowY: 'auto', border: '1px solid var(--admin-accent-border)'
-              }}>
-                <h4 style={{ margin: '0 0 10px 0', color: 'var(--admin-noti-text)', borderBottom: '1px solid var(--admin-accent-border)', paddingBottom: '10px' }}>
-                  내 알림
-                </h4>
+              <div ref={notiRef} className="notification-panel">
+                <h4>내 알림</h4>
                 {notifications.length === 0 ? (
-                  <p style={{ fontSize: '0.9em', color: 'var(--text-secondary)', textAlign: 'center', margin: '20px 0' }}>새로운 알림이 없습니다.</p>
+                  <p className="notification-empty">새로운 알림이 없습니다.</p>
                 ) : (
                   <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
                     {notifications.map((noti) => (
-                      <li key={noti.id} style={{ 
-                        padding: '14px 14px 14px 16px', backgroundColor: 'var(--admin-card-bg)', borderRadius: '14px', border: '1px solid var(--admin-accent-border)',
-                        display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', boxShadow: '0 8px 20px rgba(15,23,42,0.06)'
-                      }}>
+                      <li key={noti.id} className={`notification-item ${noti.is_read ? '' : 'unread'}`}>
                         <div style={{ flexGrow: 1, paddingRight: '10px' }}>
-                          <p style={{ margin: '0 0 6px 0', fontSize: '0.95em', color: 'var(--admin-noti-text)', lineHeight: '1.6', fontWeight: '500' }}>{noti.message}</p>
-                          <span style={{ fontSize: '0.75em', color: 'var(--text-secondary)' }}>{new Date(noti.created_at).toLocaleString()}</span>
+                          <p>{noti.message}</p>
+                          <span>{new Date(noti.created_at).toLocaleString()}</span>
                         </div>
                         <button 
                           onClick={() => handleDeleteNotification(noti.id)}
-                          style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '1.05em', padding: '0', lineHeight: '1' }}
+                          className="notification-delete-btn"
                           title="삭제"
                         >&times;</button>
                       </li>

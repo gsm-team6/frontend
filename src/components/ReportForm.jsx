@@ -74,8 +74,8 @@ const ReportForm = ({ isOpen, onClose, onReportSubmitted, user }) => { // 👈 u
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
           <div>
             <label style={{ fontSize: '0.9em', color: 'var(--text-secondary)', fontWeight: 'bold' }}>신고 유형</label>
-            <select name="report_type" value={formData.report_type} onChange={handleChange}
-              style={{ width: '100%', padding: '12px', marginTop: '5px', borderRadius: '12px', border: '1px solid var(--input-border)', backgroundColor: 'var(--input-bg)', color: 'var(--input-text)', outline: 'none', fontFamily: 'inherit' }}>
+            <select name="report_type" value={formData.report_type} onChange={handleChange} className="custom-select"
+              style={{ width: '100%', marginTop: '5px' }}>
               <option value="시설파손">시설파손</option>
               <option value="화재위험">화재위험</option>
               <option value="기타">기타</option>
@@ -83,13 +83,15 @@ const ReportForm = ({ isOpen, onClose, onReportSubmitted, user }) => { // 👈 u
           </div>
           <div>
             <label style={{ fontSize: '0.9em', color: '#666', fontWeight: 'bold' }}>위치 (자세히)</label>
-            <input type="text" name="location" value={formData.location} onChange={handleChange} required placeholder="예: 본관 3층 복도 끝"
+            <input type="text" name="location" value={formData.location} onChange={handleChange} required placeholder="예: 본관 3층 복도 끝" maxLength={100}
               style={{ width: '100%', padding: '12px', marginTop: '5px', borderRadius: '12px', border: '1px solid var(--input-border)', backgroundColor: 'var(--input-bg)', color: 'var(--input-text)', boxSizing: 'border-box', outline: 'none', fontFamily: 'inherit' }} />
+            <div style={{ fontSize: '0.75em', color: '#888', marginTop: '4px' }}>최대 100자까지 입력 가능합니다.</div>
           </div>
           <div>
             <label style={{ fontSize: '0.9em', color: '#666', fontWeight: 'bold' }}>신고 내용</label>
-            <textarea name="content" value={formData.content} onChange={handleChange} required placeholder="상세한 내용을 적어주세요." rows="4"
+            <textarea name="content" value={formData.content} onChange={handleChange} required placeholder="상세한 내용을 적어주세요." rows="4" maxLength={2000}
               style={{ width: '100%', padding: '12px', marginTop: '5px', borderRadius: '12px', border: '1px solid var(--input-border)', backgroundColor: 'var(--input-bg)', color: 'var(--input-text)', boxSizing: 'border-box', outline: 'none', resize: 'none', fontFamily: 'inherit' }} />
+            <div style={{ fontSize: '0.75em', color: '#888', marginTop: '4px' }}>최대 2000자까지 입력 가능합니다.</div>
           </div>
           <button type="submit"
             disabled={isSubmitting}

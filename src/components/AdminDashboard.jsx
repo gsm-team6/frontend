@@ -168,9 +168,9 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
           
           {/* ★ 새로 추가된 드롭다운 */}
           <select 
+            className="custom-select"
             value={cleanupDays} 
             onChange={(e) => setCleanupDays(e.target.value)}
-            style={{ padding: '6px', borderRadius: '6px', border: '1px solid var(--border-color)', outline: 'none', backgroundColor: 'var(--input-bg)', color: 'var(--text-primary)' }}
           >
             <option value="1">1일</option>
             <option value="7">7일</option>
