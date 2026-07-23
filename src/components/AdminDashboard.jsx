@@ -256,6 +256,7 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
                 {/* 4. 우측 컨트롤 (상태, 날짜, 개별삭제) */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '15px', flexShrink: 0, marginLeft: '20px' }}>
                   <select 
+                    className="status-select"
                     value={report.status}
                     onClick={(e) => e.stopPropagation()} // 드롭다운 클릭 시 행 이벤트 무시
                     onChange={(e) => {
@@ -263,8 +264,8 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
                       handleStatusChange(report.id, e.target.value);
                     }}
                     style={{ 
-                      padding: '4px 8px', borderRadius: '6px', border: '1px solid var(--border-color)', 
-                      backgroundColor: isCompleted ? 'var(--surface)' : 'var(--input-bg)', color: 'var(--text-primary)', outline: 'none', cursor: 'pointer'
+                      borderRadius: '12px', border: '1px solid var(--border-color)', 
+                      backgroundColor: isCompleted ? 'var(--surface)' : 'var(--input-bg)', color: 'var(--text-primary)', outline: 'none', cursor: 'pointer', minWidth: '110px'
                     }}
                   >
                     <option value="접수">접수</option>
