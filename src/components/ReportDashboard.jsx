@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { apiUrl } from '../apiConfig';
 
 // App.jsx에서 userRole과 onStatusChanged(알림함 갱신용)를 추가로 받습니다.
@@ -6,7 +6,7 @@ const ReportDashboard = ({ refreshKey, userRole, onStatusChanged }) => {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchReports = async () => {
+  const fetchReports = useCallback(async () => {
     try {
       const response = await fetch(apiUrl('/api/reports'));
       const result = await response.json();
@@ -19,11 +19,13 @@ const ReportDashboard = ({ refreshKey, userRole, onStatusChanged }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchReports();
-  }, [refreshKey]);
+    const interval = setInterval(fetchReports, 5000);
+    return () => clearInterval(interval);
+  }, [refreshKey, fetchReports]);
 
   // ★ 관리자용 상태 변경 API 호출 함수
   const handleStatusChange = async (reportId, newStatus) => {

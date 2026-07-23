@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import ReportForm from './ReportForm';
 import { apiUrl } from '../apiConfig';
 
@@ -9,18 +9,21 @@ const StudentDashboard = ({ refreshKey, onDataUpdate, user }) => {
   // 상세 보기 모달 상태 관리
   const [selectedReport, setSelectedReport] = useState(null); 
 
+  const fetchReports = useCallback(async () => {
+    try {
+      const response = await fetch(apiUrl('/api/reports'));
+      const result = await response.json();
+      if (result.success) setReports(result.data);
+    } catch (error) {
+      console.error('목록 조회 에러:', error);
+    }
+  }, []);
+
   useEffect(() => {
-    const fetchReports = async () => {
-      try {
-        const response = await fetch(apiUrl('/api/reports'));
-        const result = await response.json();
-        if (result.success) setReports(result.data);
-      } catch (error) {
-        console.error('목록 조회 에러:', error);
-      }
-    };
     fetchReports();
-  }, [refreshKey]);
+    const interval = setInterval(fetchReports, 5000);
+    return () => clearInterval(interval);
+  }, [refreshKey, fetchReports]);
 
   const getBadgeStyle = (status) => {
     if (status === '완료') return { bg: '#d1fae5', color: '#166534' };

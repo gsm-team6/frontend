@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { apiUrl } from '../apiConfig';
 
 const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
@@ -8,7 +8,7 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
   const [selectedReport, setSelectedReport] = useState(null); // 상세 보기용 모달 상태
   const [cleanupDays, setCleanupDays] = useState('30');
 
-  const fetchReports = async () => {
+  const fetchReports = useCallback(async () => {
     try {
       const response = await fetch(apiUrl('/api/reports'));
       const result = await response.json();
@@ -21,11 +21,13 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchReports();
-  }, [refreshKey]);
+    const interval = setInterval(fetchReports, 5000);
+    return () => clearInterval(interval);
+  }, [refreshKey, fetchReports]);
 
   // 1. 상태 변경 함수
   const handleStatusChange = async (reportId, newStatus) => {
