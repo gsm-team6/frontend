@@ -5,4 +5,7 @@ export const API_BASE_URL = useProxy
   ? '/api'
   : envBaseUrl || '/api';
 
-export const apiUrl = (path) => `${API_BASE_URL}${path.startsWith('/') ? path : `/${path}`}`;
+export const apiUrl = (path) => {
+  const normalizedPath = path.startsWith('/api/') ? path.slice(4) : path;
+  return `${API_BASE_URL}${normalizedPath.startsWith('/') ? normalizedPath : `/${normalizedPath}`}`;
+};
