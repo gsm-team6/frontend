@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { apiUrl } from '../apiConfig';
 
 const Auth = ({ onLoginSuccess }) => {
   const [isLogin, setIsLogin] = useState(true); // true: 로그인, false: 회원가입
@@ -46,7 +47,7 @@ const Auth = ({ onLoginSuccess }) => {
       : { name: formData.name, email: formData.email, password: formData.password };
 
     try {
-      const response = await fetch(`http://localhost:5000${endpoint}`, {
+      const response = await fetch(apiUrl(endpoint), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -76,10 +77,10 @@ const Auth = ({ onLoginSuccess }) => {
   return (
     <div style={{
       display: 'flex', justifyContent: 'center', alignItems: 'center',
-      minHeight: '80vh', padding: '20px'
+      minHeight: '80vh', padding: '20px', backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)'
     }}>
       <div style={{
-        backgroundColor: 'white', padding: '40px 30px', borderRadius: '24px',
+        backgroundColor: 'var(--card-bg)', padding: '40px 30px', borderRadius: '24px',
         width: '100%', maxWidth: '400px', boxShadow: '0 10px 30px rgba(0,0,0,0.06)'
       }}>
         
@@ -90,8 +91,8 @@ const Auth = ({ onLoginSuccess }) => {
             style={{
               flex: 1, padding: '12px', border: 'none', background: 'none',
               fontSize: '1.1em', fontWeight: 'bold', cursor: 'pointer',
-              color: isLogin ? '#74B9FF' : '#aaa',
-              borderBottom: isLogin ? '3px solid #74B9FF' : 'none',
+              color: isLogin ? 'var(--primary)' : 'var(--text-secondary)',
+              borderBottom: isLogin ? '3px solid var(--primary)' : 'none',
               marginBottom: '-2px'
             }}
           >
@@ -118,7 +119,7 @@ const Auth = ({ onLoginSuccess }) => {
             borderRadius: '10px', fontSize: '0.85em', marginBottom: '20px',
             textAlign: 'center', fontWeight: 'bold'
           }}>
-            ⚠️ {errorMsg}
+            {errorMsg}
           </div>
         )}
 
@@ -137,7 +138,7 @@ const Auth = ({ onLoginSuccess }) => {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                placeholder="홍길동"
+                placeholder="이름을 입력해주세요."
                 style={{
                   width: '100%', padding: '12px', borderRadius: '12px', border: '1px solid #ddd',
                   boxSizing: 'border-box', outline: 'none', fontSize: '0.95em'
@@ -174,7 +175,7 @@ const Auth = ({ onLoginSuccess }) => {
               value={formData.password}
               onChange={handleChange}
               required
-              placeholder="••••••••"
+              placeholder="6자 이상 20자 이하로 입력 해주세요."
               style={{
                 width: '100%', padding: '12px', borderRadius: '12px', border: '1px solid #ddd',
                 boxSizing: 'border-box', outline: 'none', fontSize: '0.95em'
@@ -194,7 +195,7 @@ const Auth = ({ onLoginSuccess }) => {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 required
-                placeholder="••••••••"
+                placeholder="6자 이상 20자 이하로 입력 해주세요."
                 style={{
                   width: '100%', padding: '12px', borderRadius: '12px', border: '1px solid #ddd',
                   boxSizing: 'border-box', outline: 'none', fontSize: '0.95em'
@@ -206,7 +207,7 @@ const Auth = ({ onLoginSuccess }) => {
           <button
             type="submit"
             style={{
-              padding: '14px', backgroundColor: '#74B9FF', color: 'white',
+              padding: '14px', backgroundColor: 'var(--primary)', color: 'var(--primary-text)',
               border: 'none', borderRadius: '12px', fontWeight: 'bold',
               fontSize: '1em', cursor: 'pointer', marginTop: '10px',
               boxShadow: '0 4px 12px rgba(116, 185, 255, 0.3)'

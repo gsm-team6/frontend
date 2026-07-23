@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { apiUrl } from '../apiConfig';
 
 // App.jsx에서 userRole과 onStatusChanged(알림함 갱신용)를 추가로 받습니다.
 const ReportDashboard = ({ refreshKey, userRole, onStatusChanged }) => {
@@ -7,7 +8,7 @@ const ReportDashboard = ({ refreshKey, userRole, onStatusChanged }) => {
 
   const fetchReports = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/reports');
+      const response = await fetch(apiUrl('/api/reports'));
       const result = await response.json();
       
       if (result.success) {
@@ -30,7 +31,7 @@ const ReportDashboard = ({ refreshKey, userRole, onStatusChanged }) => {
     if (!confirmChange) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/api/reports/${reportId}/status`, {
+      const response = await fetch(apiUrl(`/api/reports/${reportId}/status`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus })
@@ -58,7 +59,7 @@ const ReportDashboard = ({ refreshKey, userRole, onStatusChanged }) => {
 
   return (
     <div style={{ maxWidth: '900px', margin: '20px 0' }}>
-      <h3>📋 교내 안전 위험 신고 현황</h3>
+      <h3>교내 안전 위험 신고 현황</h3>
       
       <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
         <thead>

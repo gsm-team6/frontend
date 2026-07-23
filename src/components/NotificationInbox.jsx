@@ -6,7 +6,7 @@ const NotificationInbox = ({ refreshKey }) => {
   const fetchNotifications = async () => {
     try {
       // 프론트에서 user_id 1번 학생으로 하드코딩하여 테스트
-      const response = await fetch('http://localhost:5000/api/reports/notifications/me?user_id=1');
+      const response = await fetch(apiUrl('/api/reports/notifications/me?user_id=1'));
       const result = await response.json();
       
       if (result.success) {
@@ -23,7 +23,7 @@ const NotificationInbox = ({ refreshKey }) => {
 
   return (
     <div style={{ border: '1px solid #4a90e2', padding: '20px', borderRadius: '8px', maxWidth: '500px', marginBottom: '20px' }}>
-      <h3 style={{ color: '#4a90e2', marginTop: 0 }}>🔔 내 알림함</h3>
+      <h3 style={{ color: '#4a90e2', marginTop: 0 }}>내 알림함</h3>
       {notifications.length === 0 ? (
         <p style={{ color: '#666' }}>도착한 알림이 없습니다.</p>
       ) : (

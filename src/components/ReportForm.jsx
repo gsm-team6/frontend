@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { apiUrl } from '../apiConfig';
 
 // isOpen(열림 상태)과 onClose(닫기 함수)를 추가로 받습니다.
 const ReportForm = ({ isOpen, onClose, onReportSubmitted, user }) => { // 👈 user 추가
@@ -15,7 +16,7 @@ const ReportForm = ({ isOpen, onClose, onReportSubmitted, user }) => { // 👈 u
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/reports', {
+      const response = await fetch(apiUrl('/api/reports'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -24,7 +25,6 @@ const ReportForm = ({ isOpen, onClose, onReportSubmitted, user }) => { // 👈 u
           location: formData.location,
           // ... 기존에 있던 필드들 그대로 유지 ...
 
-          // 👇 이 두 줄을 반드시 추가해주세요! 👇
           user_id: user.id,   
           author: user.name   
         })
@@ -55,19 +55,19 @@ const ReportForm = ({ isOpen, onClose, onReportSubmitted, user }) => { // 👈 u
     }}>
       {/* 팝업 컨텐츠 창 */}
       <div style={{
-        backgroundColor: 'white', padding: '30px', borderRadius: '24px',
+        backgroundColor: 'var(--modal-bg)', padding: '30px', borderRadius: '24px',
         width: '90%', maxWidth: '400px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <h3 style={{ margin: 0, color: '#333' }}>🚨 위험물 신고하기</h3>
+          <h3 style={{ margin: 0, color: 'var(--text-primary)' }}>위험물 신고하기</h3>
           <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '1.5em', cursor: 'pointer', color: '#999' }}>&times;</button>
         </div>
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
           <div>
-            <label style={{ fontSize: '0.9em', color: '#666', fontWeight: 'bold' }}>신고 유형</label>
+            <label style={{ fontSize: '0.9em', color: 'var(--text-secondary)', fontWeight: 'bold' }}>신고 유형</label>
             <select name="report_type" value={formData.report_type} onChange={handleChange}
-              style={{ width: '100%', padding: '12px', marginTop: '5px', borderRadius: '12px', border: '1px solid #ddd', outline: 'none' }}>
+              style={{ width: '100%', padding: '12px', marginTop: '5px', borderRadius: '12px', border: '1px solid var(--input-border)', backgroundColor: 'var(--input-bg)', color: 'var(--input-text)', outline: 'none' }}>
               <option value="시설파손">시설파손</option>
               <option value="화재위험">화재위험</option>
               <option value="기타">기타</option>
@@ -76,15 +76,15 @@ const ReportForm = ({ isOpen, onClose, onReportSubmitted, user }) => { // 👈 u
           <div>
             <label style={{ fontSize: '0.9em', color: '#666', fontWeight: 'bold' }}>위치 (자세히)</label>
             <input type="text" name="location" value={formData.location} onChange={handleChange} required placeholder="예: 본관 3층 복도 끝"
-              style={{ width: '100%', padding: '12px', marginTop: '5px', borderRadius: '12px', border: '1px solid #ddd', boxSizing: 'border-box', outline: 'none' }} />
+              style={{ width: '100%', padding: '12px', marginTop: '5px', borderRadius: '12px', border: '1px solid var(--input-border)', backgroundColor: 'var(--input-bg)', color: 'var(--input-text)', boxSizing: 'border-box', outline: 'none' }} />
           </div>
           <div>
             <label style={{ fontSize: '0.9em', color: '#666', fontWeight: 'bold' }}>신고 내용</label>
             <textarea name="content" value={formData.content} onChange={handleChange} required placeholder="상세한 내용을 적어주세요." rows="4"
-              style={{ width: '100%', padding: '12px', marginTop: '5px', borderRadius: '12px', border: '1px solid #ddd', boxSizing: 'border-box', outline: 'none', resize: 'none' }} />
+              style={{ width: '100%', padding: '12px', marginTop: '5px', borderRadius: '12px', border: '1px solid var(--input-border)', backgroundColor: 'var(--input-bg)', color: 'var(--input-text)', boxSizing: 'border-box', outline: 'none', resize: 'none' }} />
           </div>
           <button type="submit"
-            style={{ padding: '15px', backgroundColor: '#74B9FF', color: 'white', border: 'none', borderRadius: '12px', fontWeight: 'bold', fontSize: '1em', cursor: 'pointer', marginTop: '10px' }}>
+            style={{ padding: '15px', backgroundColor: 'var(--primary)', color: 'var(--primary-text)', border: 'none', borderRadius: '12px', fontWeight: 'bold', fontSize: '1em', cursor: 'pointer', marginTop: '10px' }}>
             신고 제출하기
           </button>
         </form>

@@ -1,0 +1,103 @@
+/* src/index.css */
+
+/* 1. 기본 (라이트 모드) 색상 정의 */
+:root {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-hover: #eef2ff;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --border-color: #e2e8f0;
+  --card-bg: #ffffff;
+  --modal-bg: #ffffff;
+  --surface: #f8fafc;
+  --surface-alt: #f1f5f9;
+  --input-bg: #ffffff;
+  --input-text: #0f172a;
+  --input-border: #cbd5e1;
+  --error-bg: #fef2f2;
+  --error-text: #b91c1c;
+  --primary: #74b9ff;
+  --primary-text: #ffffff;
+  --danger: #ef4444;
+  --admin-accent: #74b9ff;
+  --admin-accent-soft: #e3f2fd;
+  --admin-accent-strong: #1d4ed8;
+  --admin-accent-border: #dbeafe;
+  --admin-card-bg: #ffffff;
+  --admin-panel-bg: #eef4ff;
+  --admin-noti-bg: #f8fbff;
+  --admin-noti-text: #0f172a;
+}
+
+/* 2. 다크 모드 색상 정의 */
+[data-theme='dark'] {
+  --bg-primary: #030712;
+  --bg-secondary: #0f172a;
+  --bg-hover: #111827;
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --border-color: #334155;
+  --card-bg: #111827;
+  --modal-bg: #111b26;
+  --surface: #212a35;
+  --surface-alt: #1f2937;
+  --input-bg: #0f172a;
+  --input-text: #e2e8f0;
+  --input-border: #334155;
+  --error-bg: #7f1d1d;
+  --error-text: #fecaca;
+  --primary: #74b9ff;
+  --primary-text: #000000;
+  --danger: #fb7185;
+  --admin-accent: #60a5fa;
+  --admin-accent-soft: #152637;
+  --admin-accent-strong: #93c5fd;
+  --admin-accent-border: #475569;
+  --admin-card-bg: #111827;
+  --admin-panel-bg: #0c1220;
+  --admin-noti-bg: #111827;
+  --admin-noti-text: #e2e8f0;
+}
+
+/* 전역 바디 스타일 적용 */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ==========================================
+   ★ 다크모드 일괄 적용 치트키 (index.css 맨 아래 추가)
+   ========================================== */
+
+/* 1. 다크모드 기본 텍스트 색 */
+[data-theme='dark'] body {
+  color: var(--text-primary);
+}
+
+/* 2. 입력창(input), 드롭다운(select), 텍스트상자(textarea) 일괄 어둡게 처리 */
+[data-theme='dark'] input,
+[data-theme='dark'] select,
+[data-theme='dark'] textarea {
+  background-color: var(--input-bg) !important;
+  color: var(--input-text) !important;
+  border-color: var(--input-border) !important;
+}
+
+/* 3. 드롭다운 옵션 태그 배경색 처리 */
+[data-theme='dark'] option {
+  background-color: #2b2b2b !important;
+  color: #ffffff !important;
+}
+
+/* 4. 흰색 배경 카드/박스 요소 다크모드 배경으로 강제 교체 */
+[data-theme='dark'] div[style*="background-color: white"],
+[data-theme='dark'] div[style*="backgroundColor: 'white'"],
+[data-theme='dark'] div[style*="backgroundColor: '#fff'"],
+[data-theme='dark'] div[style*="backgroundColor: '#ffffff'"] {
+  background-color: var(--card-bg) !important;
+  border-color: var(--border-color) !important;
+}

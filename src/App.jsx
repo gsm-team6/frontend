@@ -46,7 +46,7 @@ const App = () => {
   }
 
   return (
-    <div style={{ backgroundColor: '#f5f7fa', minHeight: '100vh' }}>
+    <div style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)', minHeight: '100vh' }}>
       <Header 
         user={user} 
         viewMode={viewMode} 
@@ -59,7 +59,7 @@ const App = () => {
         {viewMode === 'ADMIN' ? (
           <AdminDashboard refreshKey={refreshKey} onStatusChanged={handleDataUpdate} />
         ) : (
-          <StudentDashboard refreshKey={refreshKey} onDataUpdate={handleDataUpdate} user={user} /> // 👈 끝에 user={user} 가 있는지!
+          <StudentDashboard refreshKey={refreshKey} onDataUpdate={handleDataUpdate} user={user} />
         )}
       </div>
     </div>
