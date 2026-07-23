@@ -146,8 +146,8 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
       {/* --- 상세 보기 모달 끝 --- */}
 
       {/* 메일함 툴바 (버튼 영역) */}
-      <div style={{ padding: '22px 24px', borderBottom: '1px solid var(--admin-accent-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'var(--admin-accent-soft)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+      <div style={{ padding: '22px 24px', borderBottom: '1px solid var(--admin-accent-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'var(--admin-accent-soft)', flexWrap: 'wrap', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '15px', flexWrap: 'wrap' }}>
           <input 
             type="checkbox" 
             style={{ cursor: 'pointer', width: '16px', height: '16px' }} 
@@ -163,14 +163,15 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
           </button>
         </div>
         
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
           <span style={{ fontSize: '0.9em', color: 'var(--admin-accent-strong)', marginRight: '5px', fontWeight: '700' }}>총 {reports.length}건</span>
           
           {/* ★ 새로 추가된 드롭다운 */}
           <select 
-            className="custom-select"
+            className="toolbar-select"
             value={cleanupDays} 
             onChange={(e) => setCleanupDays(e.target.value)}
+            style={{ minWidth: '140px' }}
           >
             <option value="1">1일</option>
             <option value="7">7일</option>

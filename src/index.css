@@ -107,7 +107,22 @@ select {
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
-.custom-select:hover {
+.toolbar-select {
+  width: auto;
+  min-width: 140px;
+  padding: 12px 16px;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.custom-select:hover,
+.toolbar-select:hover {
   border-color: var(--primary);
 }
 
