@@ -71,7 +71,10 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
     if (severity === '낮음') {
       return { label: '낮음', bg: isDark ? '#1e3a5f' : '#e0f2fe', color: isDark ? '#ffffff' : '#0369a1' };
     }
-    return null; // 보통은 배지 없이 표시
+    if (severity === '보통') {
+      return { label: '보통', bg: isDark ? '#374151' : '#f1f5f9', color: isDark ? '#e5e7eb' : '#475569' };
+    }
+    return null;
   };
 
   const { alert, confirm } = useDialog();

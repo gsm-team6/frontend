@@ -34,7 +34,8 @@ const StudentDashboard = ({ refreshKey, onDataUpdate, user }) => {
   const getSeverityBadge = (severity) => {
     if (severity === '긴급') return { label: '🚨 긴급', bg: '#fee2e2', color: '#b91c1c' };
     if (severity === '낮음') return { label: '낮음', bg: '#e0f2fe', color: '#0369a1' };
-    return null; // 보통은 배지 없이 표시
+    if (severity === '보통') return { label: '보통', bg: '#f1f5f9', color: '#475569' };
+    return null;
   };
 
   return (
