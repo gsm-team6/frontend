@@ -96,6 +96,14 @@ const StudentDashboard = ({ refreshKey, onDataUpdate, user }) => {
                   {selectedReport.content || selectedReport.description || '신고 내용이 없습니다.'}
                 </div>
               </div>
+              {selectedReport.summary && (
+                <div>
+                  <span style={{ fontSize: '0.85em', color: '#888', display: 'block', marginBottom: '4px' }}>🤖 AI 요약</span>
+                  <div style={{ padding: '12px', backgroundColor: 'var(--surface)', borderRadius: '8px', color: 'var(--text-primary)', lineHeight: '1.5', fontFamily: 'inherit' }}>
+                    {selectedReport.summary}
+                  </div>
+                </div>
+              )}
               <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid var(--border-color)', paddingTop: '15px', marginTop: '5px', fontSize: '0.9em', color: 'var(--text-secondary)' }}>
                 <span>작성자: {selectedReport.users ? selectedReport.users.name : '알수없음'}</span>
                 <span>{new Date(selectedReport.created_at).toLocaleString()}</span>

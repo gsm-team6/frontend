@@ -226,6 +226,18 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
                 <span style={{ fontSize: '0.85em', color: 'var(--text-secondary)', display: 'block', marginBottom: '4px' }}>상세 내용</span>
                 <div style={{ padding: '12px', backgroundColor: 'var(--surface)', borderRadius: '8px', minHeight: '80px', lineHeight: '1.5', color: 'var(--text-primary)', fontFamily: 'inherit' }}>{selectedReport.content || selectedReport.description || '신고 내용이 없습니다.'}</div>
               </div>
+              {selectedReport.summary && (
+                <div>
+                  <span style={{ fontSize: '0.85em', color: 'var(--text-secondary)', display: 'block', marginBottom: '4px' }}>🤖 AI 요약</span>
+                  <div style={{ padding: '12px', backgroundColor: 'var(--surface)', borderRadius: '8px', lineHeight: '1.5', color: 'var(--text-primary)', fontFamily: 'inherit' }}>{selectedReport.summary}</div>
+                </div>
+              )}
+              {selectedReport.recommendation && (
+                <div>
+                  <span style={{ fontSize: '0.85em', color: 'var(--text-secondary)', display: 'block', marginBottom: '4px' }}>✅ 우선 대응 추천</span>
+                  <div style={{ padding: '12px', backgroundColor: 'var(--admin-accent-soft)', borderRadius: '8px', lineHeight: '1.5', color: 'var(--admin-accent-strong)', fontFamily: 'inherit', fontWeight: '600' }}>{selectedReport.recommendation}</div>
+                </div>
+              )}
             </div>
           </div>
         </div>
