@@ -40,7 +40,12 @@ const ReportForm = ({ isOpen, onClose, onReportSubmitted, user }) => { // 👈 u
 
       const result = await response.json();
       if (result.success) {
-        await alert('신고가 성공적으로 접수되었습니다.');
+        const severity = result.data?.severity;
+        if (severity === '긴급') {
+          await alert(`🚨 긴급 신고로 분류되어 접수되었습니다.\n사유: ${result.severityReason || 'AI 분석 결과 위험도가 높음'}`);
+        } else {
+          await alert('신고가 성공적으로 접수되었습니다.');
+        }
         setFormData({ location: '', report_type: '시설파손', content: '' });
         if (onReportSubmitted) onReportSubmitted();
         onClose(); // 제출 성공 시 팝업 닫기

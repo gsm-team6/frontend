@@ -63,6 +63,17 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
     return base;
   };
 
+  const getSeverityBadge = (severity) => {
+    const isDark = theme === 'dark';
+    if (severity === '긴급') {
+      return { label: '🚨 긴급', bg: isDark ? '#7f1d1d' : '#fee2e2', color: isDark ? '#ffffff' : '#b91c1c' };
+    }
+    if (severity === '낮음') {
+      return { label: '낮음', bg: isDark ? '#1e3a5f' : '#e0f2fe', color: isDark ? '#ffffff' : '#0369a1' };
+    }
+    return null; // 보통은 배지 없이 표시
+  };
+
   const { alert, confirm } = useDialog();
 
   const fetchReports = useCallback(async () => {
@@ -196,7 +207,16 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
               <div>
                 <span style={{ fontSize: '0.85em', color: '#888', display: 'block', marginBottom: '4px' }}>유형 및 상태</span>
                 <span style={{ fontWeight: 'bold', fontSize: '1.1em', marginRight: '10px' }}>{selectedReport.report_type}</span>
-                <span style={{ color: selectedReport.status === '완료' ? '#2e7d32' : '#1976d2', fontWeight: 'bold' }}>[{selectedReport.status}]</span>
+                <span style={{ color: selectedReport.status === '완료' ? '#2e7d32' : '#1976d2', fontWeight: 'bold', marginRight: '10px' }}>[{selectedReport.status}]</span>
+                {getSeverityBadge(selectedReport.severity) && (
+                  <span style={{
+                    backgroundColor: getSeverityBadge(selectedReport.severity).bg,
+                    color: getSeverityBadge(selectedReport.severity).color,
+                    padding: '4px 10px', borderRadius: '999px', fontSize: '0.8em', fontWeight: '700',
+                  }}>
+                    {getSeverityBadge(selectedReport.severity).label}
+                  </span>
+                )}
               </div>
               <div>
                 <span style={{ fontSize: '0.85em', color: '#888', display: 'block', marginBottom: '4px' }}>위치</span>
@@ -312,13 +332,22 @@ const AdminDashboard = ({ refreshKey, onStatusChanged }) => {
 
                 {/* 3. 제목 및 내용 요약 */}
                 <div style={{ flexGrow: 1, display: 'flex', alignItems: 'center', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
-                  <span style={{ 
-                    backgroundColor: isCompleted ? 'var(--surface-alt)' : 'var(--admin-accent-soft)', 
+                  <span style={{
+                    backgroundColor: isCompleted ? 'var(--surface-alt)' : 'var(--admin-accent-soft)',
                     color: isCompleted ? 'var(--text-secondary)' : 'var(--admin-accent)',
                     padding: '4px 10px', borderRadius: '999px', fontSize: '0.75em', marginRight: '10px', fontWeight: '700'
                   }}>
                     {report.report_type}
                   </span>
+                  {getSeverityBadge(report.severity) && (
+                    <span style={{
+                      backgroundColor: getSeverityBadge(report.severity).bg,
+                      color: getSeverityBadge(report.severity).color,
+                      padding: '4px 10px', borderRadius: '999px', fontSize: '0.75em', marginRight: '10px', fontWeight: '700', flexShrink: 0,
+                    }}>
+                      {getSeverityBadge(report.severity).label}
+                    </span>
+                  )}
                   <span style={{ fontWeight: isNew ? 'bold' : 'normal', color: 'var(--text-primary)', marginRight: '8px' }}>
                     [{report.location}]
                   </span>

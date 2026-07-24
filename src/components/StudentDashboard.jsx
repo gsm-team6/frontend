@@ -31,6 +31,12 @@ const StudentDashboard = ({ refreshKey, onDataUpdate, user }) => {
     return { bg: '#dbeafe', color: '#1d4ed8' };
   };
 
+  const getSeverityBadge = (severity) => {
+    if (severity === '긴급') return { label: '🚨 긴급', bg: '#fee2e2', color: '#b91c1c' };
+    if (severity === '낮음') return { label: '낮음', bg: '#e0f2fe', color: '#0369a1' };
+    return null; // 보통은 배지 없이 표시
+  };
+
   return (
     <div>
       {/* 1. 신고 작성 모달 */}
@@ -61,13 +67,22 @@ const StudentDashboard = ({ refreshKey, onDataUpdate, user }) => {
               <div>
                 <span style={{ fontSize: '0.85em', color: 'var(--text-secondary)', display: 'block', marginBottom: '4px' }}>신고 유형 및 상태</span>
                 <span style={{ fontWeight: 'bold', fontSize: '1.1em', marginRight: '10px', color: 'var(--text-primary)' }}>{selectedReport.report_type}</span>
-                <span style={{ 
-                  backgroundColor: getBadgeStyle(selectedReport.status).bg, 
-                  color: getBadgeStyle(selectedReport.status).color, 
-                  padding: '4px 10px', borderRadius: '12px', fontSize: '0.8em', fontWeight: 'bold' 
+                <span style={{
+                  backgroundColor: getBadgeStyle(selectedReport.status).bg,
+                  color: getBadgeStyle(selectedReport.status).color,
+                  padding: '4px 10px', borderRadius: '12px', fontSize: '0.8em', fontWeight: 'bold', marginRight: '10px'
                 }}>
                   {selectedReport.status}
                 </span>
+                {getSeverityBadge(selectedReport.severity) && (
+                  <span style={{
+                    backgroundColor: getSeverityBadge(selectedReport.severity).bg,
+                    color: getSeverityBadge(selectedReport.severity).color,
+                    padding: '4px 10px', borderRadius: '12px', fontSize: '0.8em', fontWeight: 'bold',
+                  }}>
+                    {getSeverityBadge(selectedReport.severity).label}
+                  </span>
+                )}
               </div>
               <div>
                 <span style={{ fontSize: '0.85em', color: '#888', display: 'block', marginBottom: '4px' }}>위치</span>
@@ -143,6 +158,17 @@ const StudentDashboard = ({ refreshKey, onDataUpdate, user }) => {
               <div style={{ width: '100px', fontWeight: 'bold', color: 'var(--text-primary)', flexShrink: 0 }}>
                 {report.report_type}
               </div>
+              {getSeverityBadge(report.severity) && (
+                <div style={{ width: '70px', flexShrink: 0 }}>
+                  <span style={{
+                    backgroundColor: getSeverityBadge(report.severity).bg,
+                    color: getSeverityBadge(report.severity).color,
+                    padding: '4px 10px', borderRadius: '12px', fontSize: '0.75em', fontWeight: 'bold',
+                  }}>
+                    {getSeverityBadge(report.severity).label}
+                  </span>
+                </div>
+              )}
               <div style={{ flexGrow: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: 'var(--text-secondary)' }}>
                 <span style={{ fontWeight: 'bold', marginRight: '8px' }}>[{report.location}]</span>
                 {report.content}
